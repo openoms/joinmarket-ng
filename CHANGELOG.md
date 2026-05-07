@@ -10,6 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Surface neutrino-api watched-mempool entries in `get_utxos` and `get_transaction`, with mempool-spend overlay in single-UTXO checks (default on; opt out via `bitcoin.neutrino_include_mempool = false`).
+- `jm-wallet info --extended` now annotates addresses with `(unconfirmed)` on the neutrino backend when the connected `neutrino-api` server exposes the watched mempool tracker.
+
+### Changed
+
+- Neutrino takers with mempool-tracker support now follow the same broadcast-and-verify path as the descriptor wallet backend (single-maker `RANDOM_PEER` / `MULTIPLE_PEERS`) instead of forcing the all-makers `!push` fan-out. The fan-out is still used as a fallback when mempool access is unavailable. See `docs/technical/wallet.md` for the policy matrix.
+
+### Docs
+
+- Document the `bitcoin.neutrino_include_mempool` toggle in the bundled `jmcore` config template, and parameterize the neutrino-api image in `docker-compose.yml` (`NEUTRINO_API_IMAGE`) so PR builds can be tested locally without editing the file.
 
 ## [0.28.1] - 2026-05-01
 
